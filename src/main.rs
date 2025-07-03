@@ -1,34 +1,22 @@
-use gtk::prelude::*;
-use gtk::{glib, Application, ApplicationWindow, Button};
-const APP_ID: &str = "org.hypr_nome.188";
 
-fn main() -> glib::ExitCode {
-    let app = Application::builder()
-        .application_id(APP_ID)
-        .build();
+use std::ops::RangeInclusive;
 
-    app.connect_activate(build_ui);
-    app.run()
+use eframe::egui;
+
+#[derive(Default)]
+struct Application {}
+
+impl eframe::App for Application {
+    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+        egui::CentralPanel::default().show(ctx, |ui| {
+            ui.vertical_centered(|ui| {
+                ui.add(egui::Slider::new(&mut 120, RangeInclusive::new(10, 500)));
+            });
+        });
+    }
 }
 
-fn build_ui(app: &Application) {
-    let button = Button::builder()
-        .label("Start")
-        .margin_top(12)
-        .margin_bottom(12)
-        .margin_start(12)
-        .margin_end(12)
-        .build();
-
-    button.connect_clicked(|button| {
-        button.set_label("Started");
-    });
-
-    let window = ApplicationWindow::builder()
-        .application(app)
-        .title("My GTK App")
-        .child(&button)
-        .build();
-
-    window.present();
+fn main() -> eframe::Result {
+    let options = eframe::NativeOptions::default();
+    eframe::run_native("hyprnome", options, Box::new(|_cc| Ok(Box::<Application>::default())))
 }
