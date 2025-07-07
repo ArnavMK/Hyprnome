@@ -58,7 +58,7 @@ impl eframe::App for Hyprnome {
 
         egui::CentralPanel::default().show(ctx, |ui| {
             ui.vertical_centered(|ui| {
-                ui.add(egui::Slider::new(&mut self.bpm_value, 10..=500));
+                ui.add(egui::Slider::new(&mut self.bpm_value, 70..=500));
                 ui.add_space(20.0);
 
                 if ui.button(&self.button_text).clicked() {
